@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FriendsPhotoViewController: UIViewController {
+class FriendsPhotoTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
