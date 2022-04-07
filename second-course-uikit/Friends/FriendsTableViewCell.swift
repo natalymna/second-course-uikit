@@ -15,6 +15,8 @@ class FriendsTableViewCell: UITableViewCell {
     @IBOutlet weak var titleCell: UIView!
     @IBOutlet weak var friendsLabel: UILabel!
     @IBOutlet weak var friendsImageView: UIImageView!
+    @IBOutlet weak var conteinerView: ConteinerView!
+    @IBOutlet weak var shadowView: ShadowView!
     
 
     //MARK: - initialization

@@ -7,27 +7,19 @@
 
 import UIKit
 
+protocol GlobalSearchTableVCDelegate {
+
+    func userUnsubscribe(group: Group)
+    func userSubscribe(group: Group)
+}
+
+
 class GlobalSearchTableVC: UITableViewController {
     
-    let groups: [Group] = [
-        Group(avaterGroup: UIImage(named: "Бар Гадкий кайот"), name: "Бар Гадкий кайот", description: "Фото, события бара"),
-        Group(avaterGroup: UIImage(named: "Где вкусно поесть в лесу"), name: "Где вкусно поесть в лесу", description: "Только правдивые отзывы зверей"),
-        Group(avaterGroup: UIImage(named: "Детский сад мишутка"), name: "Детский сад мишутка", description: "Детский сад мишутка"),
-        Group(avaterGroup: UIImage(named: "Детский сад Солнышко"), name: "Детский сад Солнышко", description: "У нас лучше всего вашим детям"),
-        Group(avaterGroup: UIImage(named: "Звери зоопарка"), name: "Звери зоопарка", description: "Любите ли вы животных, как любим их мы"),
-        Group(avaterGroup: UIImage(named: "Звериная школа"), name: "Звериная школа", description: "Только с 7 лет"),
-        Group(avaterGroup: UIImage(named: "Как выглядят лесые животные"), name: "Как выглядят лесые животные", description: "Кдуб любителей лесных животных. Если вы не знаете, как они выглядят, мы вас познакомим"),
-        Group(avaterGroup: UIImage(named: "Клуб любителей кошек"), name: "Клуб любителей кошек", description: "Породистые кошки леса"),
-        Group(avaterGroup: UIImage(named: "Лагерь скаутов"), name: "Лагерь скаутов", description: "Мы их научим уважать взрослых ))"),
-        Group(avaterGroup: UIImage(named: "Лицей номер 17"), name: "Лицей номер 17", description: "Официальная группа ВК. Только самые умные дети"),
-        Group(avaterGroup: UIImage(named: "Любители огорода"), name: "Любители огорода", description: "Распродажа семян"),
-        Group(avaterGroup: UIImage(named: "Найди друга"), name: "Найди друга", description: "Если вы одиноки, то эта группа для вас"),
-        Group(avaterGroup: UIImage(named: "Найди лишнего"), name: "Найди лишнего", description: "Игры на любой вкус"),
-        Group(avaterGroup: UIImage(named: "Охрана территории"), name: "Охрана территории", description: "Озранное предприятие"),
-        Group(avaterGroup: UIImage(named: "Рестораны Мишлен"), name: "Рестораны Мишлен", description: "Лучшие рестораны леса"),
-        Group(avaterGroup: UIImage(named: "Услуги няни"), name: "Услуги няни", description: "Няни от 1 часа до 8 часов в день"),
-        Group(avaterGroup: UIImage(named: "Уютные квартиры"), name: "Уютные квартиры", description: "Риэлторское агенство")
-    ]
+    let allGroupsSearch = allGroups
+    var selectedGroups: [Group] = []
+
+    var delegate: GlobalSearchTableVCDelegate?
 
 
     //MARK: - viewDidLoad
@@ -40,13 +32,13 @@ class GlobalSearchTableVC: UITableViewController {
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return groups.count
+        return allGroupsSearch.count
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "globalSearchCell", for: indexPath) as? GlobalSearchTableViewCell
-        let searchGroup = groups[indexPath.row]
+        let searchGroup = allGroupsSearch[indexPath.row]
         cell?.globalSearchImageView.image = searchGroup.avaterGroup
         cell?.globalSearchImageView.layer.cornerRadius = 50
         cell?.globalSearchImageView.clipsToBounds = true
@@ -58,6 +50,36 @@ class GlobalSearchTableVC: UITableViewController {
         return cell ?? UITableViewCell()
     }
     
-    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+
+        let group = allGroupsSearch[indexPath.row]
+        let isSubscribe = selectedGroups.contains { selectedGroups in
+            return selectedGroups.id == group.id
+        }
+
+        let action: UIContextualAction
+        if isSubscribe {
+            action = UIContextualAction(style: .normal, title: "Отписаться", handler: { [weak self ]_, _, complete in
+
+                guard let self = self else { return }
+
+                self.selectedGroups.removeAll(where: { $0.id == group.id })
+                self.delegate?.userUnsubscribe(group: group)
+                complete(true)
+            })
+
+        } else {
+            action = UIContextualAction(style: .normal, title: "Подписаться", handler: { [weak self] _, _, complete in
+
+                guard let self = self else { return }
+
+                self.selectedGroups.append(group)
+                self.delegate?.userSubscribe(group: group)
+                complete(true)
+
+            })
+        }
+        return UISwipeActionsConfiguration(actions: [action])
+    }
     
 }

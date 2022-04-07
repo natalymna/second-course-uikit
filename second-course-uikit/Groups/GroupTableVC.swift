@@ -9,17 +9,17 @@ import UIKit
 
 class GroupTableVC: UITableViewController {
     
-    var selectedGroups: [Group] = [
-        Group(avaterGroup: UIImage(named: "Бар Гадкий кайот"), name: "Бар Гадкий кайот", description: "Фото, события бара"),
-        Group(avaterGroup: UIImage(named: "Где вкусно поесть в лесу"), name: "Где вкусно поесть в лесу", description: "Только правдивые отзывы зверей"),
-        Group(avaterGroup: UIImage(named: "Детский сад мишутка"), name: "Детский сад мишутка", description: "Детский сад мишутка"),
-        Group(avaterGroup: UIImage(named: "Детский сад Солнышко"), name: "Детский сад Солнышко", description: "У нас лучше всего вашим детям")]
+    var selectedGroups: [Group] = []
     
     
     //MARK: - viewDidLoad
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if let firstGroup = allGroups.first {
+            selectedGroups.append(firstGroup)
+        }
     }
     
     // MARK: - Table view data source
@@ -55,6 +55,24 @@ class GroupTableVC: UITableViewController {
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
 
-
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let globalSearchTVC = segue.destination as? GlobalSearchTableVC {
+            globalSearchTVC.selectedGroups = selectedGroups
+            globalSearchTVC.delegate = self
+        }
+    }
     
+}
+
+extension GroupTableVC: GlobalSearchTableVCDelegate {
+    func userSubscribe(group: Group) {
+        selectedGroups.append(group)
+        tableView.reloadData()
+    }
+
+    func userUnsubscribe(group: Group) {
+        selectedGroups.removeAll(where: { $0.id == group.id })
+        tableView.reloadData()
+    }
+
 }
