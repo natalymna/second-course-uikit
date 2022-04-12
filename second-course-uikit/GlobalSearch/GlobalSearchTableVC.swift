@@ -59,7 +59,7 @@ class GlobalSearchTableVC: UITableViewController {
 
         let action: UIContextualAction
         if isSubscribe {
-            action = UIContextualAction(style: .normal, title: "Отписаться", handler: { [weak self ]_, _, complete in
+            action = UIContextualAction(style: .destructive, title: "Отписаться", handler: { [weak self ]_, _, complete in
 
                 guard let self = self else { return }
 

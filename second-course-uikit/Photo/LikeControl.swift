@@ -16,6 +16,7 @@ class LikeControl: UIControl {
 
 
     override func awakeFromNib() {
+        super.awakeFromNib()
         likeImageView.image = UIImage(named: "cердцеБелое")
     }
 

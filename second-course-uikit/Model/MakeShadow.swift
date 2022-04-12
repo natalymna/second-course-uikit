@@ -53,12 +53,14 @@ class ConteinerView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        self.backgroundColor = .clear
+
         layer.cornerRadius = cornerRadius
 
         layer.shadowColor = shadowColor.cgColor
         layer.shadowRadius = shadowRadius
         layer.shadowOpacity = shadowOpacity
-        layer.shadowOffset = CGSize(width: 15, height: 15)
+        layer.shadowOffset = shadowOffset
     }
 
 }

@@ -47,7 +47,7 @@ class GroupTableVC: UITableViewController {
     //MARK: - Actions
 
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .normal, title: "Удалить", handler: { [weak self] _, _, block in
+        let deleteAction = UIContextualAction(style: .destructive, title: "Удалить", handler: { [weak self] _, _, block in
             self?.selectedGroups.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             block(true)
