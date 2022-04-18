@@ -17,33 +17,33 @@ class ConteinerView: UIView {
 }
 
 
-@IBDesignable class ShadowView: UIView {
+/*@IBDesignable*/ class ShadowView: UIView {
 
-    @IBInspectable var cornerRadius: CGFloat = 50 {
+    /*@IBInspectable*/ var cornerRadius: CGFloat = 50 {
         didSet {
             layer.cornerRadius = cornerRadius
         }
     }
 
-    @IBInspectable var shadowRadius: CGFloat = 15 {
+    /*@IBInspectable*/ var shadowRadius: CGFloat = 15 {
         didSet {
             layer.shadowRadius = shadowRadius
         }
     }
 
-    @IBInspectable var shadowColor: UIColor = .gray {
+    /*@IBInspectable*/ var shadowColor: UIColor = .gray {
         didSet {
             layer.shadowColor = shadowColor.cgColor
         }
     }
 
-    @IBInspectable var shadowOpacity: Float = 1 {
+    /*@IBInspectable*/ var shadowOpacity: Float = 1 {
         didSet {
             layer.shadowOpacity = shadowOpacity
         }
     }
 
-    @IBInspectable var shadowOffset = CGSize(width: 15, height: 15) {
+    /*@IBInspectable*/ var shadowOffset = CGSize(width: 15, height: 15) {
         didSet {
             layer.shadowOffset = shadowOffset
         }

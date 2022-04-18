@@ -19,26 +19,34 @@ class GlobalSearchTableVC: UITableViewController {
     let allGroupsSearch = allGroups
     var selectedGroups: [Group] = []
 
+    var filteredGroups: [Group] = []
+
     var delegate: GlobalSearchTableVCDelegate?
 
+    @IBOutlet weak var allGroupsSearchBar: UISearchBar!
 
     //MARK: - viewDidLoad
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        filteredGroups = allGroupsSearch
+
+        allGroupsSearchBar.delegate = self
+
         
     }
     
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allGroupsSearch.count
+        return filteredGroups.count
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "globalSearchCell", for: indexPath) as? GlobalSearchTableViewCell
-        let searchGroup = allGroupsSearch[indexPath.row]
+        let searchGroup = filteredGroups[indexPath.row]
         cell?.globalSearchImageView.image = searchGroup.avaterGroup
         cell?.globalSearchImageView.layer.cornerRadius = 50
         cell?.globalSearchImageView.clipsToBounds = true
@@ -82,4 +90,21 @@ class GlobalSearchTableVC: UITableViewController {
         return UISwipeActionsConfiguration(actions: [action])
     }
     
+}
+
+
+extension GlobalSearchTableVC: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        updateFilteredResult(searchText: searchText)
+    }
+
+    func updateFilteredResult(searchText: String) {
+        guard !searchText.isEmpty else {
+            filteredGroups = allGroupsSearch
+            tableView.reloadData()
+            return
+        }
+        filteredGroups = allGroupsSearch.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+        tableView.reloadData()
+    }
 }

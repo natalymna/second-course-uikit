@@ -7,37 +7,56 @@
 
 import UIKit
 
+struct CategoryFriend {
+    let category: Character
+    var friends: [Friend]
+}
+
 class FriendsTableVС: UITableViewController {
     
-    let friends: [Friend] = [
-        Friend(name: "Бурый Мишка", avatar: "Бурый Мишка", photos: ["Бурый Мишка", "Медведь1", "Медведь2", "Медведь3"]),
-        Friend(name: "Колючий Ёж", avatar: "Колючий Ёж", photos: ["Колючий Ёж"]),
-        Friend(name: "Красивый Олень", avatar: "Красивый Олень", photos: ["Красивый Олень", "КрасивыйОлень1"]),
-        Friend(name: "Лесной Олень", avatar: "Лесной Олень", photos: ["Лесной Олень", "ЛеснойОлень1"]),
-        Friend(name: "Маленький Козлик", avatar: "Маленький Козлик", photos: ["Маленький Козлик"]),
-        Friend(name: "Огненная Белка", avatar: "Огненная Белка", photos: ["Огненная Белка", "Белка1", "Белка2", "Белка3", "Белка4"]),
-        Friend(name: "Рыжая Лиса", avatar: "Рыжая Лиса", photos: ["Рыжая Лиса", "Лиса1", "Лиса2", "Лиса3", "Лиса4", "Лиса5"]),
-        Friend(name: "Семейство Кабанов", avatar: "Семейство Кабанов", photos: ["Семейство Кабанов"]),
-        Friend(name: "Серый Волк", avatar: "Серый Волк", photos: ["Серый Волк", "Волк1"]),
-        Friend(name: "Серый Зайка", avatar: "Серый Зайка", photos: ["Серый Зайка", "Заяц1", "Заяц2"])]
+    var sortedFriends: [CategoryFriend] {
+        var result = [CategoryFriend]()
+
+        for friend in friends {
+            guard let character = friend.name.first else {
+                continue
+            }
+            if let sortedIndex = result.firstIndex(where: { $0.category == character}) {
+                result[sortedIndex].friends.append(friend)
+            } else {
+                let sortedFriend = CategoryFriend(category: character, friends: [friend])
+                result.append(sortedFriend)
+            }
+        }
+        return result
+    }
     
 
     //MARK: - viewDidLoad
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        let nib = UINib(nibName: "CategoryHeaderView", bundle: nil)
+        tableView.register(nib, forHeaderFooterViewReuseIdentifier: "header")
         
     }
     
     //MARK: - Table view data source
+
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return sortedFriends.count
+    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return friends.count
+        let categoryFriend = sortedFriends[section]
+        return categoryFriend.friends.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FriendsCell", for: indexPath) as? FriendsTableViewCell
-        let friend = friends[indexPath.row]
+        let categoryFriend = sortedFriends[indexPath.section]
+        let friend = categoryFriend.friends[indexPath.row]
         cell?.friendsImageView.image = UIImage(named: friend.avatar)
         cell?.friendsImageView.layer.cornerRadius = 50
         cell?.friendsImageView.clipsToBounds = true
@@ -46,20 +65,31 @@ class FriendsTableVС: UITableViewController {
         return cell ?? UITableViewCell()
         
     }
+
+
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "header") as? CategoryHeaderView
+        let categoryFriend = sortedFriends[section]
+        view?.categoryHeaderLabel.text = String(categoryFriend.category)
+        view?.contentView.backgroundColor = UIColor(white: 1, alpha: 0.5)
+        return view
+    }
+
+
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return UITableView.automaticDimension
+    }
     
     //MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let cell = sender as? FriendsTableViewCell,
-              let index = tableView.indexPath(for: cell)?.row,
-              let photosVC = segue.destination as? PhotoCollectionVC
-        else {
-            return
-        }
-        let friend = friends[index]
-        photosVC.friendPhotos = friend.photos
+              let index = tableView.indexPath(for: cell),
+              let photosVC = segue.destination as? PhotoCollectionVC else { return }
+
+        let categoryFriend = sortedFriends[index.section]
+        let friend = categoryFriend.friends[index.row]
+        photosVC.friendIndex = friends.firstIndex(where: { $0.id == friend.id }) ?? 0
     }
-    
-    
     
 }

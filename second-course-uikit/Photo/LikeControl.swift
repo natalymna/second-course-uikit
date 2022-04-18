@@ -24,7 +24,9 @@ class LikeControl: UIControl {
     override var isSelected: Bool {
 
         didSet {
-            likeImageView.image = isSelected ? UIImage(named: "сердцеКрасное") : UIImage(named: "cердцеБелое")
+            guard oldValue != isSelected else { return }
+
+            likeImageView?.image = isSelected ? UIImage(named: "сердцеКрасное") : UIImage(named: "cердцеБелое")
 
             if isSelected {
                 likeCounter += 1
@@ -32,9 +34,7 @@ class LikeControl: UIControl {
                 likeCounter -= 1
             }
 
-            counterLabel.text = "\(likeCounter)"
-
-
+            counterLabel?.text = "\(likeCounter)"
         }
     }
 
