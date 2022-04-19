@@ -40,12 +40,12 @@ class NewsTableViewController: UITableViewController {
         cell?.newsNameLabel.text = new.newsName
         cell?.newsNameLabel.textColor = UIColor.black
         cell?.newsNameLabel.font = UIFont.boldSystemFont(ofSize: 18)
-        cell?.newsNameLabel.numberOfLines = 2
+        cell?.newsNameLabel.numberOfLines = 0
 
         cell?.bodyNameLabel.text = new.bodyNews
         cell?.bodyNameLabel.font = UIFont.systemFont(ofSize: 17)
         cell?.bodyNameLabel.textAlignment = .justified
-        cell?.bodyNameLabel.numberOfLines = 6
+        cell?.bodyNameLabel.numberOfLines = 0
         
         cell?.photoNewsImageView.image = new.photoNews
         cell?.photoNewsImageView.contentMode = .scaleAspectFill
