@@ -21,6 +21,12 @@ class GlobalSearchTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        let tap = UITapGestureRecognizer(target: self, action: #selector(imageViewDidTaped(_:)))
+        tap.numberOfTapsRequired = 1
+        tap.numberOfTouchesRequired = 1
+        globalSearchImageView.addGestureRecognizer(tap)
+        globalSearchImageView.isUserInteractionEnabled = true
+
     }
 
 
@@ -29,6 +35,28 @@ class GlobalSearchTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
+    }
+
+    @objc func imageViewDidTaped(_ sender: UITapGestureRecognizer) {
+        springAnimation()
+    }
+
+
+    func springAnimation() {
+        UIView.animate(withDuration: 1,
+                       delay: 0.5,
+                       usingSpringWithDamping: 0.8,
+                       initialSpringVelocity: 0.2,
+                       options: [],
+                       animations: {
+            self.globalSearchImageView.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+        },
+                       completion: {_ in
+            UIView.animate(withDuration: 1, animations: {
+                self.globalSearchImageView.transform = .identity
+
+            })
+        })
     }
     
 }

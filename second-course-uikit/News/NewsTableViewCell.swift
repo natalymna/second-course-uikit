@@ -44,6 +44,8 @@ class NewsTableViewCell: UITableViewCell {
         setupForwardControllView()
         setupViewsControlView()
 
+        tap()
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -171,5 +173,37 @@ class NewsTableViewCell: UITableViewCell {
         viewsLabel.translatesAutoresizingMaskIntoConstraints = false
         viewsLabel.centerYAnchor.constraint(equalTo: viewsControlView.centerYAnchor).isActive = true
         viewsLabel.rightAnchor.constraint(equalTo: viewsControlView.rightAnchor, constant: -7).isActive = true
+    }
+
+
+    @objc func imageViewDidTaped(_ sender: UITapGestureRecognizer) {
+        springAnimation()
+    }
+
+
+    func tap() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(imageViewDidTaped(_:)))
+        tap.numberOfTapsRequired = 1
+        tap.numberOfTouchesRequired = 1
+        avatarImageView.addGestureRecognizer(tap)
+        avatarImageView.isUserInteractionEnabled = true
+    }
+
+
+    func springAnimation() {
+        UIView.animate(withDuration: 1,
+                       delay: 0.5,
+                       usingSpringWithDamping: 0.8,
+                       initialSpringVelocity: 0.2,
+                       options: [],
+                       animations: {
+            self.avatarImageView.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+        },
+                       completion: {_ in
+            UIView.animate(withDuration: 1, animations: {
+                self.avatarImageView.transform = .identity
+
+            })
+        })
     }
 }

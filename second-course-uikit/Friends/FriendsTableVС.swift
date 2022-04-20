@@ -87,9 +87,13 @@ class FriendsTableVС: UITableViewController {
               let index = tableView.indexPath(for: cell),
               let photosVC = segue.destination as? PhotoCollectionVC else { return }
 
+
         let categoryFriend = sortedFriends[index.section]
         let friend = categoryFriend.friends[index.row]
         photosVC.friendIndex = friends.firstIndex(where: { $0.id == friend.id }) ?? 0
     }
+
+
+
     
 }
