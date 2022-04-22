@@ -34,39 +34,24 @@ class LikeControl: UIControl {
                 likeCounter += 1
 
                 UIView.animate(withDuration: 2,
-                               delay: 2,
+                               delay: 0,
                                options: [.curveEaseInOut],
                                animations: {
                     self.rightConstraintHeart.constant = 17
-                    self.counterLabel.layoutIfNeeded()
-                })
-
-                UIView.animate(withDuration: 2,
-                               delay: 2,
-                               options: [.curveEaseInOut],
-                               animations: {
                     self.leftConstraintCount.constant = 20
-                    self.likeImageView.layoutIfNeeded()
-
+                    self.layoutIfNeeded()
                 })
 
             } else {
                 likeCounter -= 1
 
                 UIView.animate(withDuration: 2,
-                               delay: 2,
+                               delay: 0,
                                options: [.curveEaseInOut],
                                animations: {
                     self.rightConstraintHeart.constant = 0
-                    self.counterLabel.layoutIfNeeded()
-                })
-
-                UIView.animate(withDuration: 2,
-                               delay: 2,
-                               options: [.curveEaseInOut],
-                               animations: {
                     self.leftConstraintCount.constant = 0
-                    self.likeImageView.layoutIfNeeded()
+                    self.layoutIfNeeded()
                 })
             }
 
