@@ -13,7 +13,10 @@ class PhotoCollectionVC: UICollectionViewController {
     //MARK: - properties
     
     var friendIndex: Int = 0
-    
+
+    var friend: Friend {
+        return friends[friendIndex]
+    }
     
     
     //MARK: - viewDidLoad
@@ -26,13 +29,13 @@ class PhotoCollectionVC: UICollectionViewController {
     // MARK: - UICollectionViewDataSource
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return friends[friendIndex].photos.count
+        return friend.photos.count
     }
     
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as? PhotoCollectionViewCell
-        let friendPhoto = friends[friendIndex].photos[indexPath.row]
+        let friendPhoto = friend.photos[indexPath.row]
         cell?.photoImageView.image = UIImage(named: friendPhoto.imageName)
         cell?.likeControl.isSelected = friendPhoto.isLiked
         
@@ -43,6 +46,11 @@ class PhotoCollectionVC: UICollectionViewController {
         
         return cell ?? UICollectionViewCell()
     }
-    
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let sliderVC = segue.destination as? SlideShowImageViewController {
+            sliderVC.photos = friend.photos
+        }
+    }
     
 }

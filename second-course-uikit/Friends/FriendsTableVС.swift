@@ -90,7 +90,10 @@ class FriendsTableVС: UITableViewController {
 
         let categoryFriend = sortedFriends[index.section]
         let friend = categoryFriend.friends[index.row]
-        photosVC.friendIndex = friends.firstIndex(where: { $0.id == friend.id }) ?? 0
+
+        let friendIndex = friends.firstIndex(where: { $0.id == friend.id })
+        photosVC.friendIndex = friendIndex ?? 0
+        photosVC.title = friend.name
     }
 
 

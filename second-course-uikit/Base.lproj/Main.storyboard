@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="b1j-kL-tIm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Gp4-Gh-8NX">
     <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -506,11 +506,49 @@
                             <outlet property="delegate" destination="1RC-DK-83X" id="I8l-nb-cDG"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" title="Фото" id="YIr-Cu-axf"/>
+                    <navigationItem key="navigationItem" title="Фото" id="YIr-Cu-axf">
+                        <barButtonItem key="rightBarButtonItem" title="Просмотр фото" id="JlB-mp-RSF">
+                            <connections>
+                                <segue destination="ZU0-Od-rPI" kind="show" id="GLy-QP-hMd"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D1p-g2-s0x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3669.5652173913045" y="-242.11956521739131"/>
+        </scene>
+        <!--Slide Show Image View Controller-->
+        <scene sceneID="0TU-Sg-6UA">
+            <objects>
+                <viewController modalPresentationStyle="fullScreen" id="ZU0-Od-rPI" customClass="SlideShowImageViewController" customModule="second_course_uikit" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZuQ-lw-JSm">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a0c-Ab-kcU">
+                                <rect key="frame" x="87" y="125" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P4p-9K-nUc">
+                                <rect key="frame" x="87" y="430" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="9ZD-cQ-uWX"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="lHn-Lf-r0I"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="firstImageView" destination="a0c-Ab-kcU" id="to8-Cl-9rs"/>
+                        <outlet property="secondImageView" destination="P4p-9K-nUc" id="Pve-K0-341"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XjU-5t-uKW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4470" y="-243"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="hk8-r4-N8c">
