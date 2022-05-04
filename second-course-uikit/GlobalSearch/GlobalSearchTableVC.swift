@@ -89,9 +89,13 @@ class GlobalSearchTableVC: UITableViewController {
         }
         return UISwipeActionsConfiguration(actions: [action])
     }
-    
-}
 
+
+    @IBAction func backButtonTapped(_ sender: UIBarButtonItem) {
+        navigationController?.popViewController(animated: true)
+    }
+
+}
 
 extension GlobalSearchTableVC: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

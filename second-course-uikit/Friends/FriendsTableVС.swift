@@ -81,7 +81,7 @@ class FriendsTableVС: UITableViewController {
     }
     
     //MARK: - Navigation
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let cell = sender as? FriendsTableViewCell,
               let index = tableView.indexPath(for: cell),
@@ -100,3 +100,14 @@ class FriendsTableVС: UITableViewController {
 
     
 }
+
+
+//extension FriendsTableVС: UIViewControllerTransitioningDelegate {
+//    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+//
+//    }
+//
+//    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+//
+//    }
+//}

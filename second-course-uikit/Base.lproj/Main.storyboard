@@ -247,9 +247,9 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Группы" id="GMG-Ng-qG7">
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="L7T-hL-c4p">
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="search" id="Yu7-di-TJN">
                             <connections>
-                                <segue destination="RXe-Le-Y1Y" kind="show" identifier="showSearchGroups" id="QQj-Vj-7AO"/>
+                                <action selector="nextScreenTapped:" destination="AFC-ny-Agr" id="gEh-Sc-HAE"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -262,7 +262,7 @@
         <!--Поиск групп-->
         <scene sceneID="U3i-Ko-O7H">
             <objects>
-                <tableViewController id="RXe-Le-Y1Y" customClass="GlobalSearchTableVC" customModule="second_course_uikit" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="GlobalSearchTableVC" id="RXe-Le-Y1Y" customClass="GlobalSearchTableVC" customModule="second_course_uikit" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="wuF-aE-ZNR">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -323,7 +323,15 @@
                             <outlet property="delegate" destination="RXe-Le-Y1Y" id="7CZ-eG-I0g"/>
                         </connections>
                     </tableView>
+                    <toolbarItems>
+                        <barButtonItem title="&lt; Назад" id="5Fz-dI-BFV">
+                            <connections>
+                                <action selector="backButtonTapped:" destination="RXe-Le-Y1Y" id="JGZ-8Y-LLk"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="Поиск групп" id="0EC-tY-DCv"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="allGroupsSearchBar" destination="AwW-3c-swQ" id="Fwb-Cj-K1x"/>
                     </connections>
@@ -509,7 +517,7 @@
                     <navigationItem key="navigationItem" title="Фото" id="YIr-Cu-axf">
                         <barButtonItem key="rightBarButtonItem" title="Просмотр фото" id="JlB-mp-RSF">
                             <connections>
-                                <segue destination="ZU0-Od-rPI" kind="show" id="GLy-QP-hMd"/>
+                                <segue destination="ZU0-Od-rPI" kind="show" id="Pm6-px-kBq"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -775,7 +783,7 @@
         <!--Группы-->
         <scene sceneID="nxe-Jy-XG9">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="03a-pZ-8Ch" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="03a-pZ-8Ch" customClass="CustomNavigationController" customModule="second_course_uikit" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Группы" image="groups" selectedImage="groups" id="WuD-eK-YoG">
                         <inset key="imageInsets" minX="0.0" minY="10" maxX="0.0" maxY="10"/>
                     </tabBarItem>

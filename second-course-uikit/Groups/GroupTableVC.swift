@@ -62,7 +62,33 @@ class GroupTableVC: UITableViewController {
         }
     }
     
+    @IBAction func nextScreenTapped(_ sender: UIBarButtonItem) {
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        let globalSearchTVC = storyboard.instantiateViewController(withIdentifier: "GlobalSearchTableVC")
+
+//        navigationController?.delegate = self
+
+        navigationController?.pushViewController(globalSearchTVC, animated: true)
+    }
 }
+
+//extension GroupTableVC: UINavigationControllerDelegate {
+//
+//    func navigationController(_ navigationController: UINavigationController,
+//                              animationControllerFor operation: UINavigationController.Operation,
+//                              from fromVC: UIViewController,
+//                              to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+//        switch operation {
+//        case .push:
+//            return TransitionAnimator(isPresenting: true)
+//        case .pop:
+//            return TransitionAnimator(isPresenting: false)
+//        default:
+//            return nil
+//        }
+//    }
+//
+//}
 
 extension GroupTableVC: GlobalSearchTableVCDelegate {
     func userSubscribe(group: Group) {
