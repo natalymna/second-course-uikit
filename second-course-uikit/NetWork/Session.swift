@@ -9,7 +9,7 @@ import Foundation
 
 
 struct Session {
-    static let shared = Session()
+    static var shared = Session()
     private init() {}
 
     let token: String = ""
