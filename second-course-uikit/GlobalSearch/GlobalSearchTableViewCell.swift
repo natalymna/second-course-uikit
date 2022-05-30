@@ -7,17 +7,16 @@
 
 import UIKit
 
+/// GlobalSearchTableViewCell
 class GlobalSearchTableViewCell: UITableViewCell {
 
     //MARK: - outlets
-    
     @IBOutlet weak var descriptionSearchLable: UILabel!
     @IBOutlet weak var searchLable: UILabel!
     @IBOutlet weak var globalSearchImageView: UIImageView!
     
 
     //MARK: - initialization
-
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -30,18 +29,20 @@ class GlobalSearchTableViewCell: UITableViewCell {
     }
 
 
-    //MARK: - selected state method
-
+    /// selected state method
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
     }
 
+    /// imageViewDidTaped
+    /// - Parameter sender: UITapGestureRecognizer
     @objc func imageViewDidTaped(_ sender: UITapGestureRecognizer) {
         springAnimation()
     }
 
 
+    /// springAnimation
     func springAnimation() {
         UIView.animate(withDuration: 1,
                        delay: 0.5,

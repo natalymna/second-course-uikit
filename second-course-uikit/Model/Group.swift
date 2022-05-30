@@ -10,7 +10,6 @@ import UIKit
 
 
 //MARK: - struct Group
-
 struct Group {
     let id: String
     let avaterGroup: UIImage?
@@ -18,6 +17,8 @@ struct Group {
     let description: String
 }
 
+
+//MARK: - array allGroups
 var allGroups: [Group] = [
     Group(id: "1", avaterGroup: UIImage(named: "Бар Гадкий кайот"), name: "Бар Гадкий кайот", description: "Фото, события бара"),
     Group(id: "2", avaterGroup: UIImage(named: "Где вкусно поесть в лесу"), name: "Где вкусно поесть в лесу", description: "Только правдивые отзывы зверей"),

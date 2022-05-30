@@ -7,8 +7,10 @@
 
 import UIKit
 
+/// NewsTableViewCell
 class NewsTableViewCell: UITableViewCell {
 
+    //MARK: - IBOutlets
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var avatarNameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
@@ -30,6 +32,7 @@ class NewsTableViewCell: UITableViewCell {
 
 
 
+    /// awakeFromNib - calling methods (constreints)
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -55,7 +58,7 @@ class NewsTableViewCell: UITableViewCell {
     }
 
 
-
+    //MARK: - Constreints
     private func setupAvatarImageView() {
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
         avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
@@ -99,7 +102,7 @@ class NewsTableViewCell: UITableViewCell {
         photoNewsImageView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1).isActive = true
     }
 
-    func setupLikeControlView() {
+    private func setupLikeControlView() {
         likeControlView.translatesAutoresizingMaskIntoConstraints = false
         likeControlView.widthAnchor.constraint(equalToConstant: 56).isActive = true
         likeControlView.heightAnchor.constraint(equalToConstant: 26).isActive = true
@@ -118,7 +121,7 @@ class NewsTableViewCell: UITableViewCell {
         likeLabel.rightAnchor.constraint(equalTo: likeControlView.rightAnchor, constant: -7).isActive = true
     }
 
-    func setupMessageControllView() {
+    private func setupMessageControllView() {
         messageControlView.translatesAutoresizingMaskIntoConstraints = false
         messageControlView.widthAnchor.constraint(equalToConstant: 56).isActive = true
         messageControlView.heightAnchor.constraint(equalToConstant: 26).isActive = true
@@ -137,7 +140,7 @@ class NewsTableViewCell: UITableViewCell {
         messageLabel.rightAnchor.constraint(equalTo: messageControlView.rightAnchor, constant: -7).isActive = true
     }
 
-    func setupForwardControllView() {
+    private func setupForwardControllView() {
         forwardControllView.translatesAutoresizingMaskIntoConstraints = false
         forwardControllView.widthAnchor.constraint(equalToConstant: 56).isActive = true
         forwardControllView.heightAnchor.constraint(equalToConstant: 26).isActive = true
@@ -156,7 +159,7 @@ class NewsTableViewCell: UITableViewCell {
         forwardLabel.rightAnchor.constraint(equalTo: forwardControllView.rightAnchor, constant: -7).isActive = true
     }
 
-    func setupViewsControlView() {
+    private func setupViewsControlView() {
         viewsControlView.translatesAutoresizingMaskIntoConstraints = false
         viewsControlView.widthAnchor.constraint(equalToConstant: 68).isActive = true
         viewsControlView.heightAnchor.constraint(equalToConstant: 26).isActive = true
@@ -176,11 +179,14 @@ class NewsTableViewCell: UITableViewCell {
     }
 
 
+    /// imageViewDidTaped
+    /// - Parameter sender: UITapGestureRecognizer
     @objc func imageViewDidTaped(_ sender: UITapGestureRecognizer) {
         springAnimation()
     }
 
 
+    /// tap
     func tap() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(imageViewDidTaped(_:)))
         tap.numberOfTapsRequired = 1
@@ -190,6 +196,7 @@ class NewsTableViewCell: UITableViewCell {
     }
 
 
+    /// springAnimation
     func springAnimation() {
         UIView.animate(withDuration: 1,
                        delay: 0.5,

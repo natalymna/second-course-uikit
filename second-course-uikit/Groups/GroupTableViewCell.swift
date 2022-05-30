@@ -7,17 +7,17 @@
 
 import UIKit
 
+/// GroupTableViewCell
 class GroupTableViewCell: UITableViewCell {
 
-    //MARK: - outlets
-    
+    //MARK: - IBOutlets
     @IBOutlet weak var groupDescriptionLable: UILabel!
     @IBOutlet weak var groupLable: UILabel!
     @IBOutlet weak var groupImageView: UIImageView!
     
     
     //MARK: - initialization
-
+    /// awakeFromNib
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -31,17 +31,20 @@ class GroupTableViewCell: UITableViewCell {
 
 
     //MARK: - selected state method
-    
+    /// setSelected
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
     }
 
+    /// imageViewDidTaped
+    /// - Parameter sender: UITapGestureRecognizer
     @objc func imageViewDidTaped(_ sender: UITapGestureRecognizer) {
         springAnimation()
     }
 
 
+    /// springAnimation
     func springAnimation() {
         UIView.animate(withDuration: 1,
                        delay: 0.5,

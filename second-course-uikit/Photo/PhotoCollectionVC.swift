@@ -8,9 +8,11 @@
 import UIKit
 
 
+/// PhotoCollectionVC
 class PhotoCollectionVC: UICollectionViewController {
     
     //MARK: - properties
+    var getAllPhotos = ExtractingDataAllPhotos()
     
     var friendIndex: Int = 0
 
@@ -19,20 +21,23 @@ class PhotoCollectionVC: UICollectionViewController {
     }
     
     
-    //MARK: - viewDidLoad
-    
+    //MARK: - LifeCycle
+    /// viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        getAllPhotos.gettingDataAllPhotos(id: MySession.shared.userID)
     }
     
     
     // MARK: - UICollectionViewDataSource
-    
+    ///numberOfItemsInSection
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return friend.photos.count
     }
     
-    
+
+    ///cellForItemAt
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as? PhotoCollectionViewCell
         let friendPhoto = friend.photos[indexPath.row]
@@ -47,6 +52,9 @@ class PhotoCollectionVC: UICollectionViewController {
         return cell ?? UICollectionViewCell()
     }
 
+
+    //MARK: - Navigation
+    ///prepare for segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let sliderVC = segue.destination as? SlideShowImageViewController {
             sliderVC.photos = friend.photos

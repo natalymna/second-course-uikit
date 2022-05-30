@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// GlobalSearchTableVCDelegate
 protocol GlobalSearchTableVCDelegate {
 
     func userUnsubscribe(group: Group)
@@ -14,7 +15,12 @@ protocol GlobalSearchTableVCDelegate {
 }
 
 
+/// GlobalSearchTableVC
 class GlobalSearchTableVC: UITableViewController {
+
+
+    //MARK: - properties
+    var getSearchGroups = ExtractingDataSearchGroups()
     
     let allGroupsSearch = allGroups
     var selectedGroups: [Group] = []
@@ -23,12 +29,17 @@ class GlobalSearchTableVC: UITableViewController {
 
     var delegate: GlobalSearchTableVCDelegate?
 
+
+    //MARK: - IBOutlets
     @IBOutlet weak var allGroupsSearchBar: UISearchBar!
 
-    //MARK: - viewDidLoad
-    
+
+    //MARK: - LifeCycle
+    /// viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        getSearchGroups.gettingDataSearchGroups(searchText: "группа")
 
         filteredGroups = allGroupsSearch
 
@@ -38,12 +49,12 @@ class GlobalSearchTableVC: UITableViewController {
     }
     
     // MARK: - Table view data source
-    
+    /// numberOfRowsInSection
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filteredGroups.count
     }
     
-    
+    /// dequeueReusableCell
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "globalSearchCell", for: indexPath) as? GlobalSearchTableViewCell
         let searchGroup = filteredGroups[indexPath.row]
@@ -57,7 +68,9 @@ class GlobalSearchTableVC: UITableViewController {
         
         return cell ?? UITableViewCell()
     }
-    
+
+
+    /// trailingSwipeActionsConfigurationForRowAt
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 
         let group = allGroupsSearch[indexPath.row]
@@ -91,17 +104,24 @@ class GlobalSearchTableVC: UITableViewController {
     }
 
 
+    //MARK: - IBAction - Navigation
     @IBAction func backButtonTapped(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
     }
 
 }
 
+
+///GlobalSearchTableVC
 extension GlobalSearchTableVC: UISearchBarDelegate {
+
+    ///searchBar
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         updateFilteredResult(searchText: searchText)
     }
 
+
+    ///updateFilteredResult
     func updateFilteredResult(searchText: String) {
         guard !searchText.isEmpty else {
             filteredGroups = allGroupsSearch

@@ -7,9 +7,10 @@
 
 import UIKit
 
+/// LoginViewController
 class LoginViewController: UIViewController {
     
-    //MARK: - outlet properties
+    //MARK: - IBOutlets
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var vkImageView: UIImageView!
@@ -17,8 +18,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     
     
-    //MARK: - objc methods
-    
+    ///keyboardWasShown
     @objc func keyboardWasShown(notification: Notification) {
         
         let info = notification.userInfo as NSDictionary?
@@ -29,19 +29,22 @@ class LoginViewController: UIViewController {
         scrollView?.scrollIndicatorInsets = contentInsets
     }
     
-    
+
+    ///keyboardWillBeHidden
     @objc func keyboardWillBeHidden(notification: Notification) {
         let contentInsets = UIEdgeInsets.zero
         scrollView?.contentInset = contentInsets
     }
     
-    
+
+    ///hideKeyboard
     @objc func hideKeyboard() {
         self.scrollView?.endEditing(true)
     }
     
     
-    // MARK: - viewDidLoad
+    // MARK: - LifeCycle
+    ///viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -51,7 +54,7 @@ class LoginViewController: UIViewController {
     }
     
     
-    //MARK: - viewWillAppear
+    ///viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -61,7 +64,7 @@ class LoginViewController: UIViewController {
     }
     
     
-    //MARK: - viewWillDisappear
+    ///viewWillDisappear
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -71,7 +74,7 @@ class LoginViewController: UIViewController {
 
 
     //MARK: - navigation
-    
+    ///shouldPerformSegue
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         let checkResult = checkUserData()
         passwordTextField.isSecureTextEntry = true
@@ -85,8 +88,9 @@ class LoginViewController: UIViewController {
     }
 
 
+
     //MARK: - methods for validaition
-    
+    ///checkUserData
     func checkUserData() -> Bool {
         guard let login = loginTextField.text,
               let password = passwordTextField.text else { return false }
@@ -97,7 +101,8 @@ class LoginViewController: UIViewController {
         }
     }
 
-    
+
+    ///showLoginError
     func showLoginError() {
         let alert = UIAlertController(title: "Ошибка", message: "Введены неверные данные пользователя", preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)

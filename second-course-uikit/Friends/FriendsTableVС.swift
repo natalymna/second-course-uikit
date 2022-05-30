@@ -7,12 +7,17 @@
 
 import UIKit
 
+/// CategoryFriend
 struct CategoryFriend {
     let category: Character
     var friends: [Friend]
 }
 
+/// FriendsTableVС
 class FriendsTableVС: UITableViewController {
+
+    //MARK: - properties
+    var getFriends = ExtractingDataFriends()
     
     var sortedFriends: [CategoryFriend] {
         var result = [CategoryFriend]()
@@ -32,10 +37,12 @@ class FriendsTableVС: UITableViewController {
     }
     
 
-    //MARK: - viewDidLoad
-
+    //MARK: - LifeCycle
+    /// viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        getFriends.gettingDataFriends()
 
         let nib = UINib(nibName: "CategoryHeaderView", bundle: nil)
         tableView.register(nib, forHeaderFooterViewReuseIdentifier: "header")
@@ -43,16 +50,19 @@ class FriendsTableVС: UITableViewController {
     }
     
     //MARK: - Table view data source
-
+    ///numberOfSections
     override func numberOfSections(in tableView: UITableView) -> Int {
         return sortedFriends.count
     }
-    
+
+    ///numberOfRowsInSection
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let categoryFriend = sortedFriends[section]
         return categoryFriend.friends.count
     }
-    
+
+
+    ///dequeueReusableCell
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FriendsCell", for: indexPath) as? FriendsTableViewCell
         let categoryFriend = sortedFriends[indexPath.section]
@@ -67,6 +77,7 @@ class FriendsTableVС: UITableViewController {
     }
 
 
+    ///viewForHeaderInSection
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "header") as? CategoryHeaderView
         let categoryFriend = sortedFriends[section]
@@ -76,12 +87,14 @@ class FriendsTableVС: UITableViewController {
     }
 
 
+    ///heightForHeaderInSection
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return UITableView.automaticDimension
     }
     
-    //MARK: - Navigation
 
+    //MARK: - Navigation
+    ///prepare for segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let cell = sender as? FriendsTableViewCell,
               let index = tableView.indexPath(for: cell),

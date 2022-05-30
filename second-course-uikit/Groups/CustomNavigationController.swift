@@ -7,10 +7,15 @@
 
 import UIKit
 
+/// CustomNavigationController
 class CustomNavigationController: UINavigationController {
 
+    //MARK: - properties
     var interactiveTransitin: CustomInteractiveTransition?
 
+
+    //MARK: - LifeCycle
+    /// viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -19,8 +24,11 @@ class CustomNavigationController: UINavigationController {
 
 }
 
+
+//MARK: - CustomNavigationController
 extension CustomNavigationController: UINavigationControllerDelegate {
 
+    /// animation controller for operation
     func navigationController(_ navigationController: UINavigationController,
                               animationControllerFor operation: UINavigationController.Operation,
                               from fromVC: UIViewController,
@@ -37,6 +45,8 @@ extension CustomNavigationController: UINavigationControllerDelegate {
         }
     }
 
+
+    /// interaction controllerFor animation controller
     func navigationController(_ navigationController: UINavigationController,
                               interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
 
@@ -47,7 +57,10 @@ extension CustomNavigationController: UINavigationControllerDelegate {
 }
 
 
+/// CustomInteractiveTransition
 class CustomInteractiveTransition: UIPercentDrivenInteractiveTransition {
+
+    //MARK: - properties
 
     let poppingViewController: UIViewController
 
@@ -64,6 +77,7 @@ class CustomInteractiveTransition: UIPercentDrivenInteractiveTransition {
         poppingViewController.view.addGestureRecognizer(recognizer)
     }
 
+    /// scrennDidPan
     @objc func scrennDidPan(_ sender: UIScreenEdgePanGestureRecognizer) {
         switch sender.state {
         case .began:

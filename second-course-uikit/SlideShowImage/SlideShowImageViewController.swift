@@ -7,8 +7,10 @@
 
 import UIKit
 
+/// SlideShowImageViewController
 class SlideShowImageViewController: UIViewController {
 
+    //MARK: - properties
     var photos: [Photo] = []
 
     var currentPhotoIndex: Int?
@@ -31,6 +33,7 @@ class SlideShowImageViewController: UIViewController {
     }
 
 
+    //MARK: - IBOutlets
     @IBOutlet weak var firstImageView: UIImageView!
     @IBOutlet weak var secondImageView: UIImageView!
 
@@ -42,6 +45,8 @@ class SlideShowImageViewController: UIViewController {
         [firstImageView, secondImageView].first(where: { $0.isHidden})
     }
 
+
+    //MARK: - LifeCycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -62,6 +67,8 @@ class SlideShowImageViewController: UIViewController {
         view.addGestureRecognizer(rightSwipe)
     }
 
+
+    //MARK: - viewDidSwipe
     @objc func viewDidSwipe (_ sender: UISwipeGestureRecognizer) {
         switch sender.direction {
         case .right:
@@ -74,6 +81,7 @@ class SlideShowImageViewController: UIViewController {
 
     }
 
+    /// swipeToRight
     func swipeToRight() {
         guard let previousPhotoIndex = previousPhotoIndex else {
             return
@@ -114,6 +122,8 @@ class SlideShowImageViewController: UIViewController {
 
     }
 
+
+    /// swipeToLeft
     func swipeToLeft() {
         guard let nextPhotoIndex = nextPhotoIndex else {
             return
@@ -151,9 +161,6 @@ class SlideShowImageViewController: UIViewController {
                 currentImageView?.isHidden = true
                 currentImageView?.transform = .identity
             })
-
-
-
 
     }
 }

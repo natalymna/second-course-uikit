@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 //MARK:- struct Friend
-
 struct Friend {
     let id: String
     let name: String
@@ -17,11 +16,13 @@ struct Friend {
     var photos: [Photo]
 }
 
+//MARK:- struct Photo
 struct Photo {
     let imageName: String
     var isLiked: Bool
 }
 
+//MARK:- array friends
 var friends: [Friend] = [
     Friend(id: "1", name: "Бурый Мишка", avatar: "Бурый Мишка", photos: [
         Photo(imageName: "Бурый Мишка", isLiked: false),

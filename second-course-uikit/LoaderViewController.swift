@@ -7,13 +7,18 @@
 
 import UIKit
 
+/// LoaderViewController
 class LoaderViewController: UIViewController {
 
+
+    //MARK: - IBOutlets
     @IBOutlet weak var loaderOneView: UIView!
     @IBOutlet weak var loaderTwoView: UIView!
     @IBOutlet weak var loaderThreeView: UIView!
 
 
+    //MARK: - LifeCycle
+    ///viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -22,17 +27,18 @@ class LoaderViewController: UIViewController {
         loaderOneView.layer.cornerRadius = loaderOneView.frame.size.height / 2
         loaderTwoView.layer.cornerRadius = loaderOneView.frame.size.height / 2
         loaderThreeView.layer.cornerRadius = loaderOneView.frame.size.height / 2
-
     }
     
 
+    ///viewDidAppear
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         animationLoader()
-
-
     }
+
+
+    ///animationLoader
     func animationLoader() {
 
         UIView.animate(withDuration: 0.7,
@@ -55,11 +61,11 @@ class LoaderViewController: UIViewController {
                        animations: {
             self.loaderThreeView.alpha = 0
         })
-
     }
+    
 
 
-
+    ///presentationTimeSegue
     @objc func presentationTimeSegue() {
         self.view.layer.removeAllAnimations()
         self.performSegue(withIdentifier: "goToTabBarController", sender: self)

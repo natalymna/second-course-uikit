@@ -7,8 +7,10 @@
 
 import UIKit
 
+/// TransitionAnimator
 class TransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
+    //MARK: - properties
     let animationDuration: TimeInterval = 2
 
     let isPresenting: Bool
@@ -16,11 +18,12 @@ class TransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         self.isPresenting = isPresenting
     }
 
-
+    ///transitionDuration
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return animationDuration
     }
 
+    ///animateTransition
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         if isPresenting {
             animateForPresent(using: transitionContext)
@@ -29,7 +32,7 @@ class TransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         }
     }
 
-
+    ///animateForDismiss
     func animateForDismiss(using transitionContext: UIViewControllerContextTransitioning) {
         guard let source = transitionContext.viewController(forKey: .from),
               let destination = transitionContext.viewController(forKey: .to)
@@ -64,6 +67,7 @@ class TransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     }
 
 
+    ///setAnchorPoint
     func setAnchorPoint(anchorPoint: CGPoint, forView view: UIView) {
         var newPoint = CGPoint(x: view.bounds.size.width * anchorPoint.x,
                                y: view.bounds.size.height * anchorPoint.y)
@@ -87,6 +91,7 @@ class TransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     }
 
 
+    ///animateForPresent
     func animateForPresent (using transitionContext: UIViewControllerContextTransitioning) {
         guard let source = transitionContext.viewController(forKey: .from),
               let destination = transitionContext.viewController(forKey: .to)

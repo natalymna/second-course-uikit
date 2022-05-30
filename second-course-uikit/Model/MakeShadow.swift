@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// ConteinerView - for making shadow
 class ConteinerView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -17,8 +18,10 @@ class ConteinerView: UIView {
 }
 
 
+/// ShadowView - for making shadow
 /*@IBDesignable*/ class ShadowView: UIView {
 
+    //MARK: - properties
     /*@IBInspectable*/ var cornerRadius: CGFloat = 50 {
         didSet {
             layer.cornerRadius = cornerRadius
@@ -50,6 +53,7 @@ class ConteinerView: UIView {
     }
 
 
+    /// awakeFromNib - making shadow
     override func awakeFromNib() {
         super.awakeFromNib()
 

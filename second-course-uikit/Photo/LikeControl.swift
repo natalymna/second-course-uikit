@@ -7,16 +7,20 @@
 
 import UIKit
 
+/// LikeControl
 class LikeControl: UIControl {
 
+    //MARK: - IBOutlets
     @IBOutlet weak var likeImageView: UIImageView!
     @IBOutlet weak var counterLabel: UILabel!
     @IBOutlet weak var leftConstraintCount: NSLayoutConstraint!
     @IBOutlet weak var rightConstraintHeart: NSLayoutConstraint!
 
+    //MARK: - properties
     var likeCounter = 0
 
 
+    ///awakeFromNib
     override func awakeFromNib() {
         super.awakeFromNib()
         likeImageView.image = UIImage(named: "cердцеБелое")

@@ -7,11 +7,16 @@
 
 import Foundation
 
-
-struct Session {
-    static var shared = Session()
+// MARK: - Session for getting token and userID
+/// MySession
+final class MySession {
+    static var shared = MySession()
     private init() {}
 
-    let token: String = ""
-    let userID: Int = 0
+    //MARK: - properties
+    var token: String = ""
+    var userID: Int = 0
+    let currentApiVersion = "5.131"
+    let scheme = "https"
+    let host = "api.vk.com"
 }

@@ -7,11 +7,11 @@
 
 import UIKit
 
+/// FriendsTableViewCell
 class FriendsTableViewCell: UITableViewCell {
 
 
-    //MARK: - outlets
-    
+    //MARK: - IBOutlets
     @IBOutlet weak var titleCell: UIView!
     @IBOutlet weak var friendsLabel: UILabel!
     @IBOutlet weak var friendsImageView: UIImageView!
@@ -20,7 +20,7 @@ class FriendsTableViewCell: UITableViewCell {
     
 
     //MARK: - initialization
-
+    ///awakeFromNib
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -33,17 +33,19 @@ class FriendsTableViewCell: UITableViewCell {
 
 
     //MARK: - selected state method
-    
+    ///setSelected
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
 
 
+    ///imageViewDidTaped
     @objc func imageViewDidTaped(_ sender: UITapGestureRecognizer) {
         springAnimation()
     }
 
 
+    ///springAnimation
     func springAnimation() {
         UIView.animate(withDuration: 1,
                        delay: 0.5,
