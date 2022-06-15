@@ -1,5 +1,5 @@
 //
-//  ExtractingDataFriends.swift
+//  UserService.swift
 //  second-course-uikit
 //
 //  Created by Natalya Murygina on 25.05.2022.
@@ -7,16 +7,21 @@
 
 import UIKit
 
+enum ServiceError: Error {
+    case serviceIsNotAvailable
+    case decodingError
+}
+
+
+//MARK: - Request
 /// ExtractingDataFriends
-final class ExtractingDataFriends {
+final class UserService {
 
     /// gettingDataFriends
-    func gettingDataFriends() {
+    func gettingDataFriends(completion: @escaping ([User]) -> Void) {
 
         guard MySession.shared.token != "" else { return }
-        
-        let configuration = URLSessionConfiguration.default
-        let session = URLSession(configuration: configuration)
+
         var urlConstructor = URLComponents()
         urlConstructor.scheme = MySession.shared.scheme
         urlConstructor.host = MySession.shared.host
@@ -31,23 +36,26 @@ final class ExtractingDataFriends {
 
         guard let urlTask = urlConstructor.url else { return }
 
-        let task = session.dataTask(with: urlTask) { data, response, error in
+        let request = URLRequest(url: urlTask)
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print(error)
+            }
+
             guard let data = data else { return }
 
 
             // MARK: - conversion in JSON
             do {
-                let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
-
-                print(json)
+                let result = try JSONDecoder().decode(RequestFriend.self, from: data)
+                completion(result.response.items)
+                print(result)
             } catch {
                 print(error)
             }
-
         }
-        
-        task.resume()
-
+        .resume()
     }
 }
 

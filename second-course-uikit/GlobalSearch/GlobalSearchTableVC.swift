@@ -10,8 +10,10 @@ import UIKit
 /// GlobalSearchTableVCDelegate
 protocol GlobalSearchTableVCDelegate {
 
-    func userUnsubscribe(group: Group)
-    func userSubscribe(group: Group)
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
+
+//    func userUnsubscribe(group: SearchGroups)
+//    func userSubscribe(group: SearchGroups)
 }
 
 
@@ -20,14 +22,16 @@ class GlobalSearchTableVC: UITableViewController {
 
 
     //MARK: - properties
-    var getSearchGroups = ExtractingDataSearchGroups()
+    var getSearchGroups = GlobalSearchService()
     
-    let allGroupsSearch = allGroups
-    var selectedGroups: [Group] = []
+    var allGroupsSearch = [SearchGroups]()
+    var selectedGroups: [SearchGroups] = []
 
-    var filteredGroups: [Group] = []
+    var filteredGroups: [SearchGroups] = []
 
     var delegate: GlobalSearchTableVCDelegate?
+
+    let searchText = "группа"
 
 
     //MARK: - IBOutlets
@@ -39,7 +43,14 @@ class GlobalSearchTableVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        getSearchGroups.gettingDataSearchGroups(searchText: "группа")
+        getSearchGroups.gettingDataSearchGroups(searchText: searchText) { [weak self] groups in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.allGroupsSearch = groups
+                self.selectedGroups = groups
+                self.tableView.reloadData()
+            }
+        }
 
         filteredGroups = allGroupsSearch
 
@@ -56,13 +67,16 @@ class GlobalSearchTableVC: UITableViewController {
     
     /// dequeueReusableCell
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "globalSearchCell", for: indexPath) as? GlobalSearchTableViewCell
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: "globalSearchCell",
+            for: indexPath) as? GlobalSearchTableViewCell
+        
         let searchGroup = filteredGroups[indexPath.row]
-        cell?.globalSearchImageView.image = searchGroup.avaterGroup
+        cell?.globalSearchImageView.loadImage(with: filteredGroups[indexPath.item].photoSearchGroup)
         cell?.globalSearchImageView.layer.cornerRadius = 50
         cell?.globalSearchImageView.clipsToBounds = true
         cell?.searchLable.text = searchGroup.name
-        cell?.descriptionSearchLable.text = searchGroup.description
+        cell?.descriptionSearchLable.text = searchGroup.name
         cell?.searchLable.numberOfLines = 2
         cell?.descriptionSearchLable.numberOfLines = 3
         
@@ -85,7 +99,7 @@ class GlobalSearchTableVC: UITableViewController {
                 guard let self = self else { return }
 
                 self.selectedGroups.removeAll(where: { $0.id == group.id })
-                self.delegate?.userUnsubscribe(group: group)
+//                self.delegate?.userUnsubscribe(group: group)
                 complete(true)
             })
 
@@ -95,7 +109,7 @@ class GlobalSearchTableVC: UITableViewController {
                 guard let self = self else { return }
 
                 self.selectedGroups.append(group)
-                self.delegate?.userSubscribe(group: group)
+//                self.delegate?.userSubscribe(group: group)
                 complete(true)
 
             })

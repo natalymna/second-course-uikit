@@ -19,4 +19,5 @@ final class MySession {
     let currentApiVersion = "5.131"
     let scheme = "https"
     let host = "api.vk.com"
+
 }

@@ -10,20 +10,25 @@ import UIKit
 /// LikeControl
 class LikeControl: UIControl {
 
+    //MARK: - properties
+    var photos = [Item]()
+    private var likeCounter: Int = 0
+
+
     //MARK: - IBOutlets
     @IBOutlet weak var likeImageView: UIImageView!
     @IBOutlet weak var counterLabel: UILabel!
     @IBOutlet weak var leftConstraintCount: NSLayoutConstraint!
     @IBOutlet weak var rightConstraintHeart: NSLayoutConstraint!
 
-    //MARK: - properties
-    var likeCounter = 0
-
 
     ///awakeFromNib
     override func awakeFromNib() {
         super.awakeFromNib()
         likeImageView.image = UIImage(named: "cердцеБелое")
+
+//        guard let count = Int(Likes.LikeCount.likesCounter.rawValue) else { return }
+//        likeCounter = count
     }
 
 
@@ -34,7 +39,10 @@ class LikeControl: UIControl {
 
             likeImageView?.image = isSelected ? UIImage(named: "сердцеКрасное") : UIImage(named: "cердцеБелое")
 
+
+
             if isSelected {
+
                 likeCounter += 1
 
                 UIView.animate(withDuration: 2,

@@ -11,9 +11,9 @@ import UIKit
 class GroupTableVC: UITableViewController {
 
     //MARK: - properties
-    var gettGroups = ExtractingDataGroups()
+    var gettGroups = GroupsService()
     
-    var selectedGroups: [Group] = []
+    var groups: [Groups] = []
     
     
     //MARK: - LifeCycle
@@ -21,27 +21,31 @@ class GroupTableVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        gettGroups.gettingDataGroups()
-
-        if let firstGroup = allGroups.first {
-            selectedGroups.append(firstGroup)
+        gettGroups.gettingDataGroups { [weak self] groups in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+            self.groups = groups
+            self.tableView.reloadData()
+            }
         }
+
     }
     
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return selectedGroups.count
+        return groups.count
     }
     
     /// cellForRowAt
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "groupCell", for: indexPath) as? GroupTableViewCell
-        let selectGroup = selectedGroups[indexPath.row]
-        cell?.groupImageView.image = selectGroup.avaterGroup
+        let selectGroup = groups[indexPath.row]
+//        cell?.groupImageView.image = selectGroup.photoGroup
+        cell?.groupImageView.loadImage(with: groups[indexPath.item].photoGroup)
         cell?.groupImageView.layer.cornerRadius = 50
         cell?.groupImageView.clipsToBounds = true
         cell?.groupLable.text = selectGroup.name
-        cell?.groupDescriptionLable.text = selectGroup.description
+        cell?.groupDescriptionLable.text = selectGroup.name
         cell?.groupLable.numberOfLines = 2
         cell?.groupDescriptionLable.numberOfLines = 3
         
@@ -51,9 +55,16 @@ class GroupTableVC: UITableViewController {
 
     //MARK: - Actions
     /// trailingSwipeActionsConfigurationForRowAt
-    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "Удалить", handler: { [weak self] _, _, block in
-            self?.selectedGroups.remove(at: indexPath.row)
+    override func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+
+        let deleteAction = UIContextualAction(
+            style: .destructive,
+            title: "Удалить",
+            handler: { [weak self] _, _, block in
+
+            self?.groups.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             block(true)
         })
@@ -63,8 +74,8 @@ class GroupTableVC: UITableViewController {
     /// prepare for segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let globalSearchTVC = segue.destination as? GlobalSearchTableVC {
-            globalSearchTVC.selectedGroups = selectedGroups
-            globalSearchTVC.delegate = self
+//            globalSearchTVC.selectedGroups = selectedGroups
+//            globalSearchTVC.delegate = self
         }
     }
 
@@ -100,20 +111,36 @@ class GroupTableVC: UITableViewController {
 
 
 //MARK: - GroupTableVC
-extension GroupTableVC: GlobalSearchTableVCDelegate {
+//extension GroupTableVC: GlobalSearchTableVCDelegate {
+//
+//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+//
+//        selectedGroups = []
+//
+//        if searchText == "" {
+//            selectedGroups = selectedGroups
+//        }
+//
+//        for grup in selectedGroups {
+//            if selectedGroups[IndexPath.item].name.uppercased().contains(searchText.uppercased()) {
+//                selectedGroups.append(group)
+//            }
+//        }
+//        self.tableView.reloadData()
+//    }
 
-    /// userSubscribe
-    /// - Parameter group: Group
-    func userSubscribe(group: Group) {
-        selectedGroups.append(group)
-        tableView.reloadData()
-    }
+//    /// userSubscribe
+//    /// - Parameter group: Group
+//    func userSubscribe(group: SearchGroupsData) {
+//        selectedGroups.append(group)
+//        tableView.reloadData()
+//    }
+//
+//    /// userUnsubscribe
+//    /// - Parameter group: Group
+//    func userUnsubscribe(group: SearchGroupsData) {
+//        selectedGroups.removeAll(where: { $0.id == group.id })
+//        tableView.reloadData()
+//    }
 
-    /// userUnsubscribe
-    /// - Parameter group: Group
-    func userUnsubscribe(group: Group) {
-        selectedGroups.removeAll(where: { $0.id == group.id })
-        tableView.reloadData()
-    }
-
-}
+//}

@@ -11,8 +11,7 @@ import UIKit
 class SlideShowImageViewController: UIViewController {
 
     //MARK: - properties
-    var photos: [Photo] = []
-
+    var photos = [Item]()
     var currentPhotoIndex: Int?
 
     var nextPhotoIndex: Int? {
@@ -27,7 +26,7 @@ class SlideShowImageViewController: UIViewController {
         return prevIndex >= 0 ? prevIndex : nil
     }
 
-    var currentPhoto: Photo? {
+    var currentPhoto: Item? {
         guard let index = currentPhotoIndex else { return nil }
         return photos[index]
     }
@@ -51,9 +50,22 @@ class SlideShowImageViewController: UIViewController {
         super.viewWillAppear(animated)
 
         currentPhotoIndex = photos.isEmpty ? nil : 0
+        guard let currentPhotoIndex = currentPhotoIndex,
+        let currentPhoto = currentPhoto
+        else { return }
 
         firstImageView.frame = view.bounds
-        firstImageView.image = UIImage(named: currentPhoto?.imageName ?? "")
+        firstImageView.loadImage(with: currentPhoto.sizes[currentPhotoIndex].url)
+
+//        guard let photoURL = currentPhoto?.sizes[currentPhotoIndex].url,
+//              let path = URL(string: photoURL),
+//              let imageData = try? Data(contentsOf: path, options: .uncached),
+//              let slideShowPhoto = UIImage(data: imageData)
+//        else { return }
+//
+//        firstImageView.image = slideShowPhoto
+
+
 
         secondImageView.frame = view.bounds
         secondImageView.isHidden = true
@@ -81,16 +93,26 @@ class SlideShowImageViewController: UIViewController {
 
     }
 
+
+
     /// swipeToRight
     func swipeToRight() {
-        guard let previousPhotoIndex = previousPhotoIndex else {
-            return
-        }
+        guard let previousPhotoIndex = previousPhotoIndex,
+        let currentPhoto = currentPhoto
+        else { return }
 
         let hiddenImageView = hiddenImageView
         let currentImageView = currentImageView
 
-        hiddenImageView?.image = UIImage(named: photos[previousPhotoIndex].imageName)
+        hiddenImageView?.loadImage(with: currentPhoto.sizes[previousPhotoIndex].url)
+
+//        guard let photoURL = currentPhoto?.sizes[previousPhotoIndex].url,
+//              let path = URL(string: photoURL),
+//              let imageData = try? Data(contentsOf: path, options: .uncached),
+//              let slideShowPhotoPrevious = UIImage(data: imageData)
+//        else { return }
+//
+//        hiddenImageView?.image = slideShowPhotoPrevious
         hiddenImageView?.frame.origin.x = -view.bounds.width
         hiddenImageView?.isHidden = false
 
@@ -125,14 +147,22 @@ class SlideShowImageViewController: UIViewController {
 
     /// swipeToLeft
     func swipeToLeft() {
-        guard let nextPhotoIndex = nextPhotoIndex else {
-            return
-        }
+        guard let nextPhotoIndex = nextPhotoIndex,
+        let currentPhoto = currentPhoto
+        else { return }
 
         let hiddenImageView = hiddenImageView
         let currentImageView = currentImageView
 
-        hiddenImageView?.image = UIImage(named: photos[nextPhotoIndex].imageName)
+        hiddenImageView?.loadImage(with: currentPhoto.sizes[nextPhotoIndex].url)
+
+//        guard let photoURL = currentPhoto?.sizes[nextPhotoIndex].url, nextPhotoIndex <= (photos.count - 1),
+//              let path = URL(string: photoURL),
+//              let imageData = try? Data(contentsOf: path, options: .uncached),
+//              let slideShowPhotoNext = UIImage(data: imageData)
+//        else { return }
+
+//        hiddenImageView?.image = slideShowPhotoNext
         hiddenImageView?.frame.origin.x = view.bounds.maxX
         hiddenImageView?.isHidden = false
 
