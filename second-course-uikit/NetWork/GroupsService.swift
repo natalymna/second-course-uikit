@@ -45,7 +45,6 @@ final class GroupsService {
                 do {
                     let result = try JSONDecoder().decode(RequestGroup.self, from: data)
                     completion(result.response.items)
-                    print(result)
                 } catch {
                     print(error)
                 }

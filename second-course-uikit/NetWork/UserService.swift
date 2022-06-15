@@ -50,7 +50,6 @@ final class UserService {
             do {
                 let result = try JSONDecoder().decode(RequestFriend.self, from: data)
                 completion(result.response.items)
-                print(result)
             } catch {
                 print(error)
             }
