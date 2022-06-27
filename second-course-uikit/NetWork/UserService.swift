@@ -5,7 +5,7 @@
 //  Created by Natalya Murygina on 25.05.2022.
 //
 
-import UIKit
+import Foundation
 
 enum ServiceError: Error {
     case serviceIsNotAvailable
@@ -17,47 +17,58 @@ enum ServiceError: Error {
 /// ExtractingDataFriends
 final class UserService {
 
+    /// URLSeession
+    private let session: URLSession = {
+        let session = URLSession(configuration: .default)
+        return session
+    }()
+
     /// gettingDataFriends
     func gettingDataFriends(completion: @escaping ([User]) -> Void) {
 
-        guard MySession.shared.token != "" else { return }
-
-        var urlConstructor = URLComponents()
-        urlConstructor.scheme = MySession.shared.scheme
-        urlConstructor.host = MySession.shared.host
-        urlConstructor.path = "/method/friends.get"
-        urlConstructor.queryItems = [
-            URLQueryItem(name: "order", value: "hints"),
-            URLQueryItem(name: "count", value: "10"),
-            URLQueryItem(name: "fields", value: "first_name, last_name, bdate, city, photo_100"),
-            URLQueryItem(name: "access_token", value: MySession.shared.token),
-            URLQueryItem(name: "v", value: MySession.shared.currentApiVersion)
+        let params = [
+            "order": "hints",
+            "count": "10",
+            "fields": "first_name, last_name, bdate, city, photo_100",
+            "access_token": MySession.shared.token,
+            "v": Constants.constants.currentApiVersion
         ]
 
-        guard let urlTask = urlConstructor.url else { return }
+        guard MySession.shared.token != "" else { return }
 
-        let request = URLRequest(url: urlTask)
+        let url: URL = .configureURL(
+            token: MySession.shared.token,
+            typeMethod: "/method/friends.get",
+            params: params)
 
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print(error)
-            }
+        session.dataTask(
+            with: url) { data, _, error in
+                guard let data = data, error == nil else { return }
 
-            guard let data = data else { return }
-
-
-            // MARK: - conversion in JSON
-            do {
-                let result = try JSONDecoder().decode(RequestFriend.self, from: data)
-                completion(result.response.items)
-            } catch {
-                print(error)
-            }
+                // MARK: - conversion in JSON
+                do {
+                    let result = try JSONDecoder().decode(RequestFriend.self, from: data)
+                    completion(result.response.items)
+                } catch {
+                    print(error)
+                }
+            }.resume()
         }
-        .resume()
     }
-}
 
+
+//MARK: - Конструктор
+//        var urlConstructor = URLComponents()
+//        urlConstructor.scheme = MySession.shared.scheme
+//        urlConstructor.host = MySession.shared.host
+//        urlConstructor.path = "/method/friends.get"
+//        urlConstructor.queryItems = [
+//            URLQueryItem(name: "order", value: "hints"),
+//            URLQueryItem(name: "count", value: "10"),
+//            URLQueryItem(name: "fields", value: "first_name, last_name, bdate, city, photo_100"),
+//            URLQueryItem(name: "access_token", value: MySession.shared.token),
+//            URLQueryItem(name: "v", value: MySession.shared.currentApiVersion)
+//        ]
 
 
 //MARK: - второй вариант реализации (оставлю здесь для себя)

@@ -20,8 +20,8 @@ extension URL {
         queryItems.append(.init(name: "access_token", value: token))
 
         var components = URLComponents()
-        components.scheme = MySession.shared.scheme
-        components.host = MySession.shared.host
+        components.scheme = Constants.constants.scheme
+        components.host = Constants.constants.host
         components.path = typeMethod
         components.queryItems = queryItems
 

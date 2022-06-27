@@ -6,20 +6,13 @@
 //
 
 import UIKit
+import RealmSwift
 
 
 //MARK: - Decodable
-/// SearchGroupsData
-struct SearchGroups: Decodable {
-    let id: Int
-    let name: String
-    let photoSearchGroup: String
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case name
-        case photoSearchGroup = "photo_100"
-    }
+/// RequestSearchGroup
+struct RequestSearchGroup: Decodable {
+    let response: ResponseSearchGroup
 }
 
 /// ResponseSearchGroup
@@ -28,7 +21,15 @@ struct ResponseSearchGroup: Decodable {
 }
 
 
-/// RequestSearchGroup
-struct RequestSearchGroup: Decodable {
-    let response: ResponseSearchGroup
+/// SearchGroupsData
+final class SearchGroups: Object, Decodable {
+    @objc dynamic var id: Int = 0
+    @objc dynamic var name: String = ""
+    @objc dynamic var photoSearchGroup: String = ""
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case photoSearchGroup = "photo_100"
+    }
 }

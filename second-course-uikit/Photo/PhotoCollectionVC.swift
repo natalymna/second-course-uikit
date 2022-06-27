@@ -19,8 +19,13 @@ final class PhotoCollectionVC: UICollectionViewController {
 
     private let getAllPhotos = PhotoService()
 
+    /// Идентификатор пользователя
     var userID: String = ""
+
+    /// Массив моделей фото
     var photos = [Item]()
+
+    /// Массив линков изображений
     var storedImages = [String]()
 
 
@@ -48,6 +53,8 @@ final class PhotoCollectionVC: UICollectionViewController {
 
         cell?.likeControl.isSelected = photos[indexPath.item].likes?.isLiked == 1 ? true : false
 
+        cell?.likeControl.likeCounter = photos[indexPath.item].likes?.likesCounter ?? 0
+
         cell?.photoDidLiked = { [weak self] isSelected in
 
             self?.photos[indexPath.item].likes?.isLiked = isSelected ? 1 : 0
@@ -64,21 +71,23 @@ final class PhotoCollectionVC: UICollectionViewController {
     }
 }
 
-private extension PhotoCollectionVC {
+extension PhotoCollectionVC {
     func fetchPhoto() {
-        getAllPhotos.gettingDataAllPhotos(for: userID) { [weak self] links in
-            self?.photos = links
-            if let imageLinks = self?.sortImage(type: .r, array: links) {
-                self?.storedImages = imageLinks
+        Task {
+            await getAllPhotos.gettingDataAllPhotos(for: userID) { [weak self] photos in
+                self?.photos = photos
+                if let imageLinks = self?.sortImage(type: "w", array: photos) {
+                    self?.storedImages = imageLinks
+                }
             }
 
-            DispatchQueue.main.async {
-                self?.collectionView.reloadData()
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
             }
         }
-    }
 
-    func sortImage(type: EnumType, array: [Item]) -> [String] {
+    func sortImage(type: String, array: [Item]) -> [String] {
         var links = [String]()
 
         for model in array {

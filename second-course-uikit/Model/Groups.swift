@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 
 //MARK: - Decodable
@@ -22,10 +23,10 @@ struct ResponseGroup: Decodable {
 
 
 /// GroupsData
-struct Groups: Decodable {
-    let id: Int
-    let name: String
-    let photoGroup: String
+final class Groups: Object, Decodable {
+    @objc dynamic var id: Int = 0
+    @objc dynamic var name: String = ""
+    @objc dynamic var photoGroup: String = ""
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -33,10 +34,3 @@ struct Groups: Decodable {
         case photoGroup = "photo_100"
     }
 }
-
-
-
-
-
-
-

@@ -16,8 +16,4 @@ final class MySession {
     //MARK: - properties
     var token: String = ""
     var userID: Int = 0
-    let currentApiVersion = "5.131"
-    let scheme = "https"
-    let host = "api.vk.com"
-
 }
