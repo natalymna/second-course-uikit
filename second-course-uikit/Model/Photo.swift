@@ -48,7 +48,7 @@ final class Likes: Object, Decodable {
         case isLiked = "user_likes"
     }
 
-    convenience required init(from decoder: Decoder) throws {
+    convenience init(from decoder: Decoder) throws {
         self.init()
         let values = try decoder.container(keyedBy: LikeCount.self)
         self.likesCounter = try values.decodeIfPresent(Int.self, forKey: .likesCounter) ?? 0

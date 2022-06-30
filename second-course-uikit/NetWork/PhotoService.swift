@@ -44,6 +44,7 @@ final class PhotoService {
             let (data, _) = try await session.data(from: url)
             let decoder = JSONDecoder()
             let result = try decoder.decode(RequestPhoto.self, from: data).response.items
+            self.savePhoto(photos: result)
             completion(result)
         } catch {
             print(error)
@@ -55,7 +56,7 @@ final class PhotoService {
 private extension PhotoService {
     func savePhoto(photos: [Item]) {
         if let realm = try? Realm() {
-            print(realm.configuration.fileURL ?? "")
+            print("DBG", realm.configuration.fileURL ?? "")
             do {
                 try realm.write({
                     realm.add(photos, update: .modified)
