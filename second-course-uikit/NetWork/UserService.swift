@@ -6,10 +6,12 @@
 //
 
 import Foundation
+import RealmSwift
 
 enum ServiceError: Error {
     case serviceIsNotAvailable
     case decodingError
+    case urlNotConfigure
 }
 
 
@@ -55,7 +57,6 @@ final class UserService {
             }.resume()
         }
     }
-
 
 //MARK: - Конструктор
 //        var urlConstructor = URLComponents()

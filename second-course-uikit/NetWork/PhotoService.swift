@@ -13,7 +13,7 @@ import RealmSwift
 final class PhotoService {
 
     /// URLSeession
-    private let session: URLSession = {
+    private lazy var session: URLSession = {
         let session = URLSession(configuration: .default)
         return session
     }()
@@ -42,9 +42,9 @@ final class PhotoService {
         // MARK: - conversion in JSON
         do {
             let (data, _) = try await session.data(from: url)
+            print(String(data: data, encoding: .utf8))
             let decoder = JSONDecoder()
             let result = try decoder.decode(RequestPhoto.self, from: data).response.items
-            self.savePhoto(photos: result)
             completion(result)
         } catch {
             print(error)
@@ -65,6 +65,19 @@ private extension PhotoService {
                 print("error")
             }
         }
+    }
+
+    func sortImage(type: String, array: [Item]) -> [String] {
+        var links = [String]()
+
+        for model in array {
+            for size in model.sizes {
+                if size.type == type {
+                    links.append(size.url)
+                }
+            }
+        }
+        return links
     }
 }
 
