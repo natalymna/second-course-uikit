@@ -5,7 +5,8 @@
 //  Created by Natalya Murygina on 25.05.2022.
 //
 
-import UIKit
+import Foundation
+import RealmSwift
 
 //MARK: - Request
 /// ExtractingDataAllPhotos
@@ -19,14 +20,15 @@ final class PhotoService {
 
     /// gettingDataAllPhotos
     /// - Parameter id: id of the owner of the photo in VK
-    func gettingDataAllPhotos(for id: String, completion: @escaping ([Item]) -> Void) {
+    @available(iOS 15.0, *)
+    func gettingDataAllPhotos(for id: String, completion: @escaping ([Item]) -> Void) async {
 
         let params = [
             "owner_id": id,
             "extended": "1",
-            "count": "10",
+            "count": "40",
             "access_token": MySession.shared.token,
-            "v": MySession.shared.currentApiVersion
+            "v": Constants.constants.currentApiVersion
         ]
 
         guard MySession.shared.token != "" else { return }
@@ -35,20 +37,33 @@ final class PhotoService {
             token: MySession.shared.token,
             typeMethod: "/method/photos.getAll",
             params: params)
+        print("DBG", url)
 
-        session.dataTask(with: url) { data, _, error in
-            guard let data = data, error == nil else {
-                return
-            }
+        // MARK: - conversion in JSON
+        do {
+            let (data, _) = try await session.data(from: url)
+            let decoder = JSONDecoder()
+            let result = try decoder.decode(RequestPhoto.self, from: data).response.items
+            completion(result)
+        } catch {
+            print(error)
+        }
+    }
+}
 
-            // MARK: - conversion in JSON
+// MARK: - Private extension
+private extension PhotoService {
+    func savePhoto(photos: [Item]) {
+        if let realm = try? Realm() {
+            print(realm.configuration.fileURL ?? "")
             do {
-                let result = try JSONDecoder().decode(RequestPhoto.self, from: data)
-                completion(result.response.items)
+                try realm.write({
+                    realm.add(photos, update: .modified)
+                })
             } catch {
-                print(error)
+                print("error")
             }
-        }.resume()
+        }
     }
 }
 

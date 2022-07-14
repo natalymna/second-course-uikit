@@ -12,7 +12,7 @@ class LikeControl: UIControl {
 
     //MARK: - properties
     var photos = [Item]()
-    private var likeCounter: Int = 0
+    var likeCounter: Int = 0
 
 
     //MARK: - IBOutlets

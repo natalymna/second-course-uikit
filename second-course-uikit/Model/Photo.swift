@@ -6,80 +6,82 @@
 //
 
 import UIKit
+import RealmSwift
 
+/// RequestPhoto
 struct RequestPhoto: Decodable {
     let response: ResponsePhoto
 }
 
+/// ResponsePhoto
 struct ResponsePhoto: Decodable {
-    var items: [Item]
+    let items: [Item]
 }
 
-struct Item: Codable {
-    let albumID: Int
-    let date: Int
-    let id: Int
-    var ownerID: Int
-    let hasTags: Bool
-    var sizes: [Size]
-    let text: String
-    var likes: Likes?
-    var reposts: Reposts
+/// Item
+final class Item: Object, Decodable {
+    @objc dynamic var id: Int = 0
+    @objc dynamic var ownerID: Int = 0
+    var sizes = List<Size>()
+    @objc dynamic var likes: Likes?
+
 
     enum CodingKeys: String, CodingKey {
-        case albumID = "album_id"
-        case date
         case id
         case ownerID = "owner_id"
-        case hasTags = "has_tags"
         case sizes
-        case text
         case likes
-        case reposts
+    }
+
+    override class func primaryKey() -> String? {
+        return "id"
     }
 }
 
-struct Likes: Codable {
-    var likesCounter: Int?
-    var isLiked: Int?
+/// Likes
+final class Likes: Object, Decodable {
+    @objc dynamic var likesCounter: Int = 0
+    @objc dynamic var isLiked: Int = 0
 
     enum LikeCount: String, CodingKey {
         case likesCounter = "count"
         case isLiked = "user_likes"
     }
-}
 
-struct Reposts: Codable {
-        var count: Int
-
-    enum RepostsCount: CodingKey {
-        case count
+    convenience required init(from decoder: Decoder) throws {
+        self.init()
+        let values = try decoder.container(keyedBy: LikeCount.self)
+        self.likesCounter = try values.decodeIfPresent(Int.self, forKey: .likesCounter) ?? 0
+        self.isLiked = try values.decodeIfPresent(Int.self, forKey: .isLiked) ?? 0
     }
 }
 
-struct Size: Codable {
-    let height: Int
-    var url: String
-    let type: EnumType
-    let width: Int
+/// Size
+final class Size: Object, Decodable {
+    @objc dynamic var height: Int = 0
+    @objc dynamic var url: String = ""
+    @objc dynamic var type: String = ""
+    @objc dynamic var width: Int = 0
 }
+
 
 // енум с типами фото
-enum EnumType: String, Codable {
-    case m = "m"
-    case o = "o"
-    case p = "p"
-    case q = "q"
-    case r = "r"
-    case s = "s"
-    case w = "w"
-    case x = "x"
-    case y = "y"
-    case z = "z"
-}
+//enum EnumType: String, Codable {
+//    case m = "m"
+//    case o = "o"
+//    case p = "p"
+//    case q = "q"
+//    case r = "r"
+//    case s = "s"
+//    case w = "w"
+//    case x = "x"
+//    case y = "y"
+//    case z = "z"
+//}
 
 
-//struct RequestPhoto: Decodable {
+
+//structruct RequestPhoto: Decodable {
 //    let response: ResponsePhoto
 //}
 //

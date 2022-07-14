@@ -5,7 +5,7 @@
 //  Created by Natalya Murygina on 25.05.2022.
 //
 
-import UIKit
+import Foundation
 
 
 //MARK: - Request
@@ -26,7 +26,7 @@ final class GroupsService {
             "filter": "groups",
             "count": "10",
             "access_token": MySession.shared.token,
-            "v": MySession.shared.currentApiVersion
+            "v": Constants.constants.currentApiVersion
         ]
 
         guard MySession.shared.token != "" else { return }

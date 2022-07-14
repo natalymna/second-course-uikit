@@ -5,7 +5,7 @@
 //  Created by Natalya Murygina on 24.05.2022.
 //
 
-import UIKit
+import Foundation
 import WebKit
 
 
@@ -40,7 +40,7 @@ class WebViewViewController: UIViewController {
             URLQueryItem(name: "display", value: "mobile"),
             URLQueryItem(name: "scope", value: "262150"),
             URLQueryItem(name: "response_type", value: "token"),
-            URLQueryItem(name: "v", value: MySession.shared.currentApiVersion)
+            URLQueryItem(name: "v", value: Constants.constants.currentApiVersion)
         ]
 
         guard let url = urlComponents?.url else { return }
