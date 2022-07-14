@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 /// CategoryFriend
 struct CategoryFriend {
@@ -130,6 +131,7 @@ class FriendsTableVС: UITableViewController {
         }
     }
 }
+
 
 
 

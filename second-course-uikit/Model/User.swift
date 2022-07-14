@@ -34,8 +34,36 @@ final class User: Object, Decodable {
         case lastName = "last_name"
         case avatar = "photo_100"
     }
+    override class func primaryKey() -> String? {
+        return "id"
+    }
+
 }
 
+
+
+//final class User: Object, Decodable {
+//
+//    @Persisted(primaryKey: true)
+//    var id: Int
+//
+//    @Persisted
+//    var firstName: String
+//
+//    @Persisted
+//    var lastName: String
+//
+//    @Persisted
+//    var avatar: String
+//
+//    enum CodingKeys: String, CodingKey {
+//            case id
+//            case birthdayDate = "bdate"
+//            case firstName = "first_name"
+//            case lastName = "last_name"
+//            case avatar = "photo_100"
+//        }
+//}
 
 ////MARK: - Decodable
 ///// FriendData

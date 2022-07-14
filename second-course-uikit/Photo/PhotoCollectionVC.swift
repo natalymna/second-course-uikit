@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 struct PhotoTestData {
     let name: String
@@ -80,12 +81,11 @@ extension PhotoCollectionVC {
                     self?.storedImages = imageLinks
                 }
             }
-
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
             }
         }
+    }
 
     func sortImage(type: String, array: [Item]) -> [String] {
         var links = [String]()
@@ -99,5 +99,16 @@ extension PhotoCollectionVC {
         }
         return links
     }
+
+//    func loadRealmData() async {
+//        do {
+//            let realmObjPhoto = try await Realm()
+//            let photos = realmObjPhoto.objects(Item.self)
+//            self.photos = Array(photos)
+//            collectionView.reloadData()
+//        } catch let error as NSError {
+//            print("Realm Objects Error: \(error.localizedDescription)")
+//        }
+//    }
 }
 
