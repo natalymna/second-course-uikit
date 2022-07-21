@@ -93,6 +93,8 @@ extension WebViewViewController: WKNavigationDelegate {
         MySession.shared.token = token
         MySession.shared.userID = userID
 
+        print("access token - ", token)
+
         decisionHandler(.cancel)
 
         performSegue(withIdentifier: "presentLoader", sender: self)

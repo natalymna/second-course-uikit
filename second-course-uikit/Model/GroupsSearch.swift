@@ -32,4 +32,8 @@ final class SearchGroups: Object, Decodable {
         case name
         case photoSearchGroup = "photo_100"
     }
+
+    override class func primaryKey() -> String? {
+        return "id"
+    }
 }
