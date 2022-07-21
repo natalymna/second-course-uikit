@@ -6,49 +6,51 @@
 //
 
 import UIKit
+import RealmSwift
 
 /// GroupTableVC
 class GroupTableVC: UITableViewController {
 
     //MARK: - properties
-    var gettGroups = GroupsService()
+    private let gettGroups = GroupsService()
+    private let realmService = RealmCashService()
     
     var groups: [Groups] = []
-    
+
+    private var groupResponse: Results<Groups>? {
+        try? realmService.read(Groups.self)
+    }
+
+    private var token: NotificationToken?
     
     //MARK: - LifeCycle
     /// viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        gettGroups.gettingDataGroups { [weak self] groups in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-            self.groups = groups
-            self.tableView.reloadData()
-            }
-        }
-
+        gettGroups.gettingDataGroups()
+        createNotificationToken()
     }
     
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return groups.count
+        return groupResponse?.count ?? 0
     }
     
     /// cellForRowAt
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "groupCell", for: indexPath) as? GroupTableViewCell
-        let selectGroup = groups[indexPath.row]
-//        cell?.groupImageView.image = selectGroup.photoGroup
-        cell?.groupImageView.loadImage(with: groups[indexPath.item].photoGroup)
-        cell?.groupImageView.layer.cornerRadius = 50
-        cell?.groupImageView.clipsToBounds = true
-        cell?.groupLable.text = selectGroup.name
-        cell?.groupDescriptionLable.text = selectGroup.name
-        cell?.groupLable.numberOfLines = 2
-        cell?.groupDescriptionLable.numberOfLines = 3
-        
+        if let groups = groupResponse {
+            let selectGroup = groups[indexPath.row]
+    //        cell?.groupImageView.image = selectGroup.photoGroup
+            cell?.groupImageView.loadImage(with: groups[indexPath.item].photoGroup)
+            cell?.groupImageView.layer.cornerRadius = 50
+            cell?.groupImageView.clipsToBounds = true
+            cell?.groupLable.text = selectGroup.name
+            cell?.groupDescriptionLable.text = selectGroup.name
+            cell?.groupLable.numberOfLines = 2
+            cell?.groupDescriptionLable.numberOfLines = 3
+        }
         return cell ?? UITableViewCell()
     }
 
@@ -64,7 +66,9 @@ class GroupTableVC: UITableViewController {
             title: "Удалить",
             handler: { [weak self] _, _, block in
 
-            self?.groups.remove(at: indexPath.row)
+                guard let group = self?.groupResponse?[indexPath.row] else { return }
+                self?.realmService.delete(group)
+//            self?.groups.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             block(true)
         })
@@ -88,6 +92,35 @@ class GroupTableVC: UITableViewController {
 //        navigationController?.delegate = self
 
         navigationController?.pushViewController(globalSearchTVC, animated: true)
+    }
+}
+
+
+private extension GroupTableVC {
+    func createNotificationToken() {
+        token = groupResponse?.observe { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .initial(let groupsData):
+                print("DBG notif token", groupsData.count)
+            case .update(_,
+                         deletions: let deletions,
+                         insertions: let insertions,
+                         modifications: let modifications):
+                let deletionsIndexPath = deletions.map { IndexPath(row: $0, section: 0) }
+                let insertionsIndexPath = insertions.map { IndexPath(row: $0, section: 0) }
+                let modificationsIndexPath = modifications.map { IndexPath(row: $0, section: 0) }
+                DispatchQueue.main.async {
+                    self.tableView.beginUpdates()
+                    self.tableView.deleteRows(at: deletionsIndexPath, with: .automatic)
+                    self.tableView.insertRows(at: insertionsIndexPath, with: .automatic)
+                    self.tableView.reloadRows(at: modificationsIndexPath, with: .automatic)
+                    self.tableView.endUpdates()
+                }
+            case .error(let error):
+                print("DBG token error", error)
+            }
+        }
     }
 }
 

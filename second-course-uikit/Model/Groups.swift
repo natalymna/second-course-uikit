@@ -33,4 +33,8 @@ final class Groups: Object, Decodable {
         case name
         case photoGroup = "photo_100"
     }
+
+    override class func primaryKey() -> String? {
+        return "id"
+    }
 }

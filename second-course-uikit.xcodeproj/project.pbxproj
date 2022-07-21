@@ -13,6 +13,7 @@
 		6E0C073127D203870070125E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E0C073027D203870070125E /* Assets.xcassets */; };
 		6E0C073427D203870070125E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E0C073227D203870070125E /* LaunchScreen.storyboard */; };
 		6E16402928699704000EC23F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E16402828699704000EC23F /* Constants.swift */; };
+		6E16402B28801411000EC23F /* RealmCashService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E16402A28801411000EC23F /* RealmCashService.swift */; };
 		6E41B7802809563F002F9768 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E41B77F2809563F002F9768 /* News.swift */; };
 		6E41B7832809614C002F9768 /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E41B7822809614C002F9768 /* NewsTableViewCell.swift */; };
 		6E41B7852809616A002F9768 /* NewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E41B7842809616A002F9768 /* NewsTableViewController.swift */; };
@@ -59,6 +60,7 @@
 		6E0C073327D203870070125E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6E0C073527D203880070125E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E16402828699704000EC23F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		6E16402A28801411000EC23F /* RealmCashService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmCashService.swift; sourceTree = "<group>"; };
 		6E41B77F2809563F002F9768 /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 		6E41B7822809614C002F9768 /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
 		6E41B7842809616A002F9768 /* NewsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewController.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 				6EDF4BAF283E3C8800808FDF /* GroupsService.swift */,
 				6EDF4BB3283E647600808FDF /* GlobalSearchService.swift */,
 				6EDF4BAB283CD5EA00808FDF /* WebViewViewController.swift */,
+				6E16402A28801411000EC23F /* RealmCashService.swift */,
 			);
 			path = NetWork;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 				6E41B7802809563F002F9768 /* News.swift in Sources */,
 				6EDF4BC428507D4F00808FDF /* Extension+URL.swift in Sources */,
 				6E905478280EE0E50095BD71 /* LoaderViewController.swift in Sources */,
+				6E16402B28801411000EC23F /* RealmCashService.swift in Sources */,
 				6EF0256427ED916E007C8D90 /* GroupTableVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 
 //MARK: - Request
@@ -19,7 +20,7 @@ final class GroupsService {
     }()
 
     /// gettingDataGroups
-    func gettingDataGroups(completion: @escaping ([Groups]) -> Void) {
+    func gettingDataGroups() {
 
         let params = [
             "extended": "1",
@@ -41,13 +42,33 @@ final class GroupsService {
                 guard let data = data, error == nil else {
                     return
                 }
+//                print("GBG Data", String(data: data, encoding: .utf8))
+
                 // MARK: - conversion in JSON
                 do {
-                    let result = try JSONDecoder().decode(RequestGroup.self, from: data)
-                    completion(result.response.items)
+                    let result = try JSONDecoder().decode(RequestGroup.self, from: data).response.items
+                    DispatchQueue.main.async {
+                        self.saveGroups(result)
+                    }
                 } catch {
-                    print(error)
+                    print(ServiceError.parseError)
                 }
             }.resume()
+    }
+}
+
+
+private extension GroupsService {
+    func saveGroups(_ groups: [Groups]) {
+        do {
+            let realm = try Realm()
+            print(realm.configuration.fileURL ?? "")
+            try realm.write {
+                groups.forEach { realm.add($0, update: .modified) }
+//                realm.add(groups, update: .modified)
+            }
+        } catch {
+            print("DBG Groups", error)
+        }
     }
 }

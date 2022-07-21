@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 //MARK: - Request
 /// ExtractingDataSearchGroups
@@ -19,7 +20,7 @@ final class GlobalSearchService {
 
     /// gettingDataSearchGroups
     /// - Parameter searchText: search text in global search groups
-    func gettingDataSearchGroups(searchText: String, completion: @escaping ([SearchGroups]) -> Void) {
+    func gettingDataSearchGroups(searchText: String) {
 
         let params = [
             "q": searchText,
@@ -43,12 +44,30 @@ final class GlobalSearchService {
                 }
                 // MARK: - conversion in JSON
                 do {
-                    let result = try JSONDecoder().decode(RequestSearchGroup.self, from: data)
-                    completion(result.response.items)
+                    let result = try JSONDecoder().decode(RequestSearchGroup.self, from: data).response.items
+                    DispatchQueue.main.async {
+                        self.saveSearchGroups(result)
+                    }
                 } catch {
                     print(error)
                 }
         }.resume()
+    }
+}
+
+
+private extension GlobalSearchService {
+    func saveSearchGroups(_ groups: [SearchGroups]) {
+        do {
+            let realm = try Realm()
+            print(realm.configuration.fileURL ?? "")
+            try realm.write {
+                groups.forEach { realm.add($0, update: .modified) }
+//                realm.add(groups, update: .modified)
+            }
+        } catch {
+            print("DBG Search Groups", error)
+        }
     }
 }
 

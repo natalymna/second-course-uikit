@@ -12,6 +12,7 @@ enum ServiceError: Error {
     case serviceIsNotAvailable
     case decodingError
     case urlNotConfigure
+    case parseError
 }
 
 
@@ -30,7 +31,7 @@ final class UserService {
 
         let params = [
             "order": "hints",
-            "count": "10",
+            "count": "100",
             "fields": "first_name, last_name, bdate, city, photo_100",
             "access_token": MySession.shared.token,
             "v": Constants.constants.currentApiVersion
@@ -46,11 +47,13 @@ final class UserService {
         session.dataTask(
             with: url) { data, _, error in
                 guard let data = data, error == nil else { return }
+//                print(String(data: data, encoding: .utf8))
 
                 // MARK: - conversion in JSON
                 do {
-                    let result = try JSONDecoder().decode(RequestFriend.self, from: data)
-                    completion(result.response.items)
+                    let result = try JSONDecoder().decode(RequestFriend.self, from: data).response.items
+                    completion(result)
+//                    print(result)
                 } catch {
                     print(error)
                 }
